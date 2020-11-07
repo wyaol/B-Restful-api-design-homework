@@ -39,4 +39,8 @@ public class StudentService {
         StudentEntity studentEntity = studentRepository.addStudent(studentDTOToStudentEntity(studentDTO));
         return studentEntityToStudentDTO(studentEntity);
     }
+
+    public void deleteStudentById(Integer studentId) {
+        studentRepository.deleteStudentById(studentId);
+    }
 }

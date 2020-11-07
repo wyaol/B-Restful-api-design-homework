@@ -1,7 +1,6 @@
 package com.thoughtworks.capability.gtb.restfulapidesign.controller;
 
 import com.thoughtworks.capability.gtb.restfulapidesign.dto.StudentDTO;
-import com.thoughtworks.capability.gtb.restfulapidesign.entity.StudentEntity;
 import com.thoughtworks.capability.gtb.restfulapidesign.exception.CommonException;
 import com.thoughtworks.capability.gtb.restfulapidesign.service.StudentService;
 import org.springframework.http.HttpStatus;
@@ -21,5 +20,11 @@ public class StudentController {
     @ResponseStatus(HttpStatus.CREATED)
     public StudentDTO addStudent(@RequestBody StudentDTO studentDTO) throws CommonException {
         return studentService.addStudent(studentDTO);
+    }
+
+    @DeleteMapping("{studentId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteStudentById(@PathVariable Integer studentId) {
+        studentService.deleteStudentById(studentId);
     }
 }
