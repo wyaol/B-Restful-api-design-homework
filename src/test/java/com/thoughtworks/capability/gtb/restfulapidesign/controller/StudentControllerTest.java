@@ -16,9 +16,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -59,5 +60,19 @@ class StudentControllerTest {
         mockMvc.perform(delete("/students/" + studentId))
                 .andExpect(status().isNoContent());
         assertEquals(studentLength - 1, studentRepository.getStudents().size());
+    }
+
+    @Test
+    void shouldGetStudents() throws Exception {
+        studentRepository.addStudent(new StudentEntity(null, "Tom", "male", "111"));
+        studentRepository.addStudent(new StudentEntity(null, "Jerry", "male", "111"));
+        studentRepository.addStudent(new StudentEntity(null, "Jack", "female", "111"));
+        studentRepository.addStudent(new StudentEntity(null, "Black", "male", "111"));
+        studentRepository.addStudent(new StudentEntity(null, "Martin", "female", "111"));
+        studentRepository.addStudent(new StudentEntity(null, "Harry", "male", "111"));
+
+        mockMvc.perform(get("/students?gender=male"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(4)));
     }
 }

@@ -6,6 +6,10 @@ import com.thoughtworks.capability.gtb.restfulapidesign.exception.CommonExceptio
 import com.thoughtworks.capability.gtb.restfulapidesign.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class StudentService {
 
@@ -42,5 +46,12 @@ public class StudentService {
 
     public void deleteStudentById(Integer studentId) {
         studentRepository.deleteStudentById(studentId);
+    }
+
+    public List<StudentDTO> getStudents(Map filters) {
+        List<StudentDTO> studentDTOS = new ArrayList<>();
+        studentRepository.getStudents(filters).forEach(studentEntity ->
+                studentDTOS.add(studentEntityToStudentDTO(studentEntity)));
+        return studentDTOS;
     }
 }
