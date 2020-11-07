@@ -1,8 +1,11 @@
 package com.thoughtworks.capability.gtb.restfulapidesign.controller;
 
+import com.thoughtworks.capability.gtb.restfulapidesign.dto.StudentDTO;
+import com.thoughtworks.capability.gtb.restfulapidesign.entity.StudentEntity;
+import com.thoughtworks.capability.gtb.restfulapidesign.exception.CommonException;
 import com.thoughtworks.capability.gtb.restfulapidesign.service.StudentService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/students")
@@ -12,5 +15,11 @@ public class StudentController {
 
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public StudentDTO addStudent(@RequestBody StudentDTO studentDTO) throws CommonException {
+        return studentService.addStudent(studentDTO);
     }
 }

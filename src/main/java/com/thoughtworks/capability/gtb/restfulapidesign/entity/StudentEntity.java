@@ -10,10 +10,12 @@ import lombok.NoArgsConstructor;
 public class StudentEntity {
     private Integer id;
     private String name;
-    private Gender gender;
+    private String gender;
     private String note;
-}
 
-enum Gender {
-    MALE, FEMALE
+    public StudentEntity(String name, String gender, String note) {
+        this.name = name;
+        this.gender = gender;
+        this.note = note;
+    }
 }
