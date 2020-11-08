@@ -2,6 +2,7 @@ package com.thoughtworks.capability.gtb.restfulapidesign.service;
 
 import com.thoughtworks.capability.gtb.restfulapidesign.entity.GroupEntity;
 import com.thoughtworks.capability.gtb.restfulapidesign.entity.StudentEntity;
+import com.thoughtworks.capability.gtb.restfulapidesign.exception.CommonException;
 import com.thoughtworks.capability.gtb.restfulapidesign.repository.GroupRepository;
 import com.thoughtworks.capability.gtb.restfulapidesign.repository.StudentRepository;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class GroupService {
@@ -20,6 +22,14 @@ public class GroupService {
     public GroupService() {
         studentRepository = StudentRepository.getInstance();
         groupRepository = GroupRepository.getInstance();
+    }
+
+    public GroupEntity patchGroupById(Integer groupId, GroupEntity groupEntity) throws CommonException {
+        try {
+            return groupRepository.patchGroupById(groupId, groupEntity);
+        } catch (NullPointerException e) {
+            throw new CommonException("该小组不存在");
+        }
     }
 
     public List<GroupEntity> group() {
@@ -39,6 +49,10 @@ public class GroupService {
             currentIndex += currentGroupStudentNum;
             groupIndex ++;
         }
+        return groupRepository.getGroups();
+    }
+
+    public List<GroupEntity> getGroups() {
         return groupRepository.getGroups();
     }
 }
