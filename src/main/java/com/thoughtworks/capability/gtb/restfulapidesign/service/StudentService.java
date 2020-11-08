@@ -54,4 +54,11 @@ public class StudentService {
                 studentDTOS.add(studentEntityToStudentDTO(studentEntity)));
         return studentDTOS;
     }
+
+    public StudentDTO getStudentById(Integer studentId) throws CommonException {
+        StudentEntity res = studentRepository.getStudentById(studentId);
+        if (res == null )
+            throw new CommonException("该用户不存在");
+        return studentEntityToStudentDTO(res);
+    }
 }

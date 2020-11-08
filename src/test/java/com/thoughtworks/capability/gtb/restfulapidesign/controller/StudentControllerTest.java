@@ -75,4 +75,13 @@ class StudentControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(4)));
     }
+
+    @Test
+    void shouldGetStudentById() throws Exception {
+        studentRepository.addStudent(new StudentEntity(null, "Tom", "male", "111"));
+        int curId = studentRepository.getStudentByName("Tom").getId();
+
+        mockMvc.perform(get("/students/" + curId))
+                .andExpect(status().isOk());
+    }
 }

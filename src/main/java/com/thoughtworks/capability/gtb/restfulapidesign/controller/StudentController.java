@@ -25,7 +25,7 @@ public class StudentController {
         return studentService.addStudent(studentDTO);
     }
 
-    @DeleteMapping("{studentId}")
+    @DeleteMapping("/{studentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStudentById(@PathVariable Integer studentId) {
         studentService.deleteStudentById(studentId);
@@ -34,5 +34,10 @@ public class StudentController {
     @GetMapping
     public List<StudentDTO> getStudents(@RequestParam(required = false) Map filters) {
         return studentService.getStudents(filters);
+    }
+
+    @GetMapping("/{studentId}")
+    public StudentDTO getStudentById(@PathVariable Integer studentId) throws CommonException {
+        return studentService.getStudentById(studentId);
     }
 }
