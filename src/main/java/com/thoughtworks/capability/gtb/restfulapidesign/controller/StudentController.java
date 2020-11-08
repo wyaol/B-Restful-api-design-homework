@@ -40,4 +40,9 @@ public class StudentController {
     public StudentDTO getStudentById(@PathVariable Integer studentId) throws CommonException {
         return studentService.getStudentById(studentId);
     }
+
+    @PutMapping("/{studentId}")
+    public StudentDTO updateStudentById(@PathVariable Integer studentId, @RequestBody StudentDTO student) throws CommonException {
+        return studentService.updateStudentById(studentId, student);
+    }
 }

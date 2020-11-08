@@ -5,18 +5,17 @@ import com.thoughtworks.capability.gtb.restfulapidesign.dto.StudentDTO;
 import com.thoughtworks.capability.gtb.restfulapidesign.entity.StudentEntity;
 import com.thoughtworks.capability.gtb.restfulapidesign.repository.StudentRepository;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -83,5 +82,19 @@ class StudentControllerTest {
 
         mockMvc.perform(get("/students/" + curId))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldUpdateStudentById() throws Exception {
+        studentRepository.addStudent(new StudentEntity(null, "Tom", "male", "111"));
+        int curId = studentRepository.getStudentByName("Tom").getId();
+        StudentDTO studentDTO = new StudentDTO(null, "Jerry", "female", "222");
+
+        mockMvc.perform(put("/students/" + curId).contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(studentDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is("Jerry")))
+                .andExpect(jsonPath("$.gender", is("female")))
+                .andExpect(jsonPath("$.note", is("222")));
     }
 }

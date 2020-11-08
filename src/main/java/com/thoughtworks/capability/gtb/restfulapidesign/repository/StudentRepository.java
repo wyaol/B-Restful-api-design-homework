@@ -1,12 +1,10 @@
 package com.thoughtworks.capability.gtb.restfulapidesign.repository;
 
+import com.thoughtworks.capability.gtb.restfulapidesign.dto.StudentDTO;
 import com.thoughtworks.capability.gtb.restfulapidesign.entity.StudentEntity;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Data
@@ -78,5 +76,14 @@ public class StudentRepository {
                 res = false;
         }
         return res;
+    }
+
+    public StudentEntity updateStudentById(Integer studentId, StudentEntity student) {
+        StudentEntity studentEntity = this.getStudentById(studentId);
+        Objects.requireNonNull(studentEntity);
+        studentEntity.setName(student.getName());
+        studentEntity.setGender(student.getGender());
+        studentEntity.setNote(student.getNote());
+        return studentEntity;
     }
 }

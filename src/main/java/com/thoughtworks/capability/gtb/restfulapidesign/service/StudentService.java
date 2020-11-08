@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class StudentService {
@@ -57,8 +58,16 @@ public class StudentService {
 
     public StudentDTO getStudentById(Integer studentId) throws CommonException {
         StudentEntity res = studentRepository.getStudentById(studentId);
-        if (res == null )
-            throw new CommonException("该用户不存在");
+        Objects.requireNonNull(res, "该用户不存在");
         return studentEntityToStudentDTO(res);
+    }
+
+    public StudentDTO updateStudentById(Integer studentId, StudentDTO student) throws CommonException {
+        try {
+            StudentEntity res = studentRepository.updateStudentById(studentId, studentDTOToStudentEntity(student));
+            return studentEntityToStudentDTO(res);
+        } catch (NullPointerException e) {
+            throw new CommonException("该学员不存在");
+        }
     }
 }
